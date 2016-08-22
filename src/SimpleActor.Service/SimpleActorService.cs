@@ -21,7 +21,6 @@ namespace SimpleActor.Service
             var container = builder.Build();
             var system = ActorSystem.Create("simpleActorSystem");
             var propsResolver = new AutoFacDependencyResolver(container, system);
-            var worker1Ref = system.ActorOf(system.DI().Props<EventStoreActor>(), "Worker1");
             Console.WriteLine("Application Started");
         }
 

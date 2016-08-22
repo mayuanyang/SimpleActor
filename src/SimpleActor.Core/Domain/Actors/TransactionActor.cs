@@ -1,7 +1,8 @@
 ﻿using System.Threading.Tasks;
 using Akka.Actor;
-using SimpleActor.Messages.Commands;
-using SimpleActor.Messages.Events;
+using SimpleActor.Core.Messages.Commands;
+using SimpleActor.Core.Messages.Events;
+
 
 namespace SimpleActor.Core.Actors
 {
@@ -14,13 +15,13 @@ namespace SimpleActor.Core.Actors
 
         private async Task AddTransaction(AddTransactionCommand msg)
         {
-            ApplyChange(new TransactionAddedEvent(msg.Id, msg.PaymentId, msg.Amount, msg.Ual));
+            NotifyAggregateRoot(new TransactionAddedEvent(msg.AggregateId, msg.PaymentId, msg.Amount, msg.Ual));
             await Task.FromResult(0);
         }
 
-        public void ApplyChange(TransactionAddedEvent @event)
+        public void NotifyAggregateRoot(TransactionAddedEvent @event)
         {
-            
+            Sender.Tell(@event, Self);
         }
     }
 }
