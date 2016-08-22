@@ -4,7 +4,7 @@ using Akka.Actor;
 using Akka.Persistence;
 using SimpleActor.Core.Messages;
 
-namespace SimpleActor.Core.Actors
+namespace SimpleActor.Core.Domain.Actors
 {
     public class AggregateRootCreationParameters
     {
@@ -32,12 +32,22 @@ namespace SimpleActor.Core.Actors
             _id = parameters.Id;
             _projections = parameters.ReadModelProjectionActor;
             _snapshotThreshold = parameters.SnapshotThreshold;
+            
         }
         protected override bool ReceiveRecover(object message)
         {
             return message.Match()
-               .With<IDomainEvent>(x => Apply(x))
-               .WasHandled;
+                .With<RecoveryCompleted>(x =>
+                {
+                    
+                })
+                .With<SnapshotOffer>(offer =>
+                {
+                    
+                    
+                })
+                .With<IDomainEvent>(x => Apply(x))
+                .WasHandled;
         }
 
         protected override bool ReceiveCommand(object message)

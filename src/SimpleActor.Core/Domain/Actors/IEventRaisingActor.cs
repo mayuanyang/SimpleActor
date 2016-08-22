@@ -1,6 +1,4 @@
-﻿using System.Threading.Tasks;
-
-namespace SimpleActor.Core.Actors
+﻿namespace SimpleActor.Core.Domain.Actors
 {
     public interface IEventRaisingActor<in T>
     {

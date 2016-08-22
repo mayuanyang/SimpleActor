@@ -7,7 +7,6 @@ using Akka.Actor;
 using Akka.DI.AutoFac;
 using Akka.DI.Core;
 using Autofac;
-using SimpleActor.Core.Actors;
 using SimpleActor.Core.Autofac;
 
 namespace SimpleActor.Service

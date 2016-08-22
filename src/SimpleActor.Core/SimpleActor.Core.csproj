@@ -81,7 +81,6 @@
     <Compile Include="Domain\Actors\PaymentActor.cs" />
     <Compile Include="Domain\Actors\TransactionActor.cs" />
     <Compile Include="Autofac\SimpleActorCoreModule.cs" />
-    <Compile Include="Domain\Entities\Payment.cs" />
     <Compile Include="Domain\Entities\Transaction.cs" />
     <Compile Include="Messages\Commands\AddPaymentCommand.cs" />
     <Compile Include="Messages\Commands\AddTransactionCommand.cs" />

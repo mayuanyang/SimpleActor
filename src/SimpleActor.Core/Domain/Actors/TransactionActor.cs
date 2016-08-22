@@ -3,8 +3,7 @@ using Akka.Actor;
 using SimpleActor.Core.Messages.Commands;
 using SimpleActor.Core.Messages.Events;
 
-
-namespace SimpleActor.Core.Actors
+namespace SimpleActor.Core.Domain.Actors
 {
     public class TransactionActor : ReceiveActor, IEventRaisingActor<TransactionAddedEvent>
     {
