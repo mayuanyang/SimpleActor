@@ -1,7 +1,10 @@
-﻿namespace SimpleActor.Core.Domain.Actors
+﻿using System.Threading.Tasks;
+using SimpleActor.Core.Messages;
+
+namespace SimpleActor.Core.Domain.Actors
 {
-    public interface IEventRaisingActor<in T>
+    public interface IEventRaisingActor<in T, TResult> where T : IDomainCommand where TResult : IDomainEvent
     {
-        void NotifyAggregateRoot(T @event);
+        Task<TResult> Handle(T cmd);
     }
 }

@@ -9,14 +9,14 @@ using SimpleActor.Core.Messages.Events;
 
 namespace SimpleActor.Core.Domain.Actors
 {
-    public class PaymentActor : AggregateRootActor, IEventRaisingActor<PaymentAddedEvent>
+    public class PaymentActor : AggregateRootActor
     {
         private IActorRef _txActor;
         private decimal _amount;
         private string _ual;
         private IList<Transaction> _transactions;
 
-       
+
         public PaymentActor(AggregateRootCreationParameters parameters) : base(parameters)
         {
             _transactions = new List<Transaction>();
@@ -24,7 +24,12 @@ namespace SimpleActor.Core.Domain.Actors
         protected override bool Handle(IDomainCommand command)
         {
             return command.Match()
-                .With<AddPaymentCommand>(AddPayment).WasHandled;
+                .With<AddPaymentCommand>(AddPayment)
+                .With<AddTransactionCommand>(x =>
+                {
+                    var response = _txActor.Ask(x);
+                })
+                .WasHandled;
         }
 
 
@@ -44,15 +49,9 @@ namespace SimpleActor.Core.Domain.Actors
                 .WasHandled;
         }
         
-
-        public void NotifyAggregateRoot(PaymentAddedEvent @event)
-        {
-            Apply(@event);
-        }
-
         private void AddPayment(AddPaymentCommand cmd)
         {
-            NotifyAggregateRoot(new PaymentAddedEvent(cmd.AggregateId, cmd.AggregateId, cmd.Amount, cmd.Ual));
+            Apply(new PaymentAddedEvent(cmd.AggregateId, cmd.AggregateId, cmd.Amount, cmd.Ual));
         }
     }
 }

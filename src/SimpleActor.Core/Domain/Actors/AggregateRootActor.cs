@@ -6,21 +6,7 @@ using SimpleActor.Core.Messages;
 
 namespace SimpleActor.Core.Domain.Actors
 {
-    public class AggregateRootCreationParameters
-    {
-        public AggregateRootCreationParameters(Guid id, IActorRef readModelProjectionActor, int snapshotThreshold = 250)
-        {
-            Id = id;
-            ReadModelProjectionActor = readModelProjectionActor;
-            SnapshotThreshold = snapshotThreshold;
-        }
-
-        public Guid Id { get; private set; }
-        public IActorRef ReadModelProjectionActor { get; private set; }
-        public int SnapshotThreshold { get; private set; }
-    }
-
-    public abstract class AggregateRootActor : PersistentActor
+    public abstract class AggregateRootActor : ReceivePersistentActor
     {
         private readonly Guid _id;
         private readonly IActorRef _projections;
@@ -34,32 +20,19 @@ namespace SimpleActor.Core.Domain.Actors
             _snapshotThreshold = parameters.SnapshotThreshold;
             
         }
-        protected override bool ReceiveRecover(object message)
+        protected void Setup()
         {
-            return message.Match()
-                .With<RecoveryCompleted>(x =>
-                {
-                    
-                })
-                .With<SnapshotOffer>(offer =>
-                {
-                    
-                    
-                })
-                .With<IDomainEvent>(x => Apply(x))
-                .WasHandled;
+            // When the aggregate is being loaded
+            Recover<IDomainEvent>(Apply);
+
+            // When someone send me a command
+            Command<IDomainCommand>(Handle);
+
+            // When my child actor finished the command i sent and acknowledge back with an event
+            Command<IDomainEvent>(Apply);
         }
 
-        protected override bool ReceiveCommand(object message)
-        {
-            return message.Match()
-                .With<IDomainCommand>(cmd =>
-                {
-                    Handle(cmd);
-                    
-                }).WasHandled;
-            
-        }
+        
 
         public override string PersistenceId => _id.ToString();
 

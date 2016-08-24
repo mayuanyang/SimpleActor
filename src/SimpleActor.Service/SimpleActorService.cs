@@ -8,18 +8,22 @@ using Akka.DI.AutoFac;
 using Akka.DI.Core;
 using Autofac;
 using SimpleActor.Core.Autofac;
+using SimpleActor.Core.Domain.Actors;
 
 namespace SimpleActor.Service
 {
     class SimpleActorService
     {
+        private static ActorSystem _system;
         public void Start()
         {
             var builder = new ContainerBuilder();
             builder.RegisterModule<SimpleActorCoreModule>();
             var container = builder.Build();
-            var system = ActorSystem.Create("simpleActorSystem");
-            var propsResolver = new AutoFacDependencyResolver(container, system);
+            _system = ActorSystem.Create("simpleActorSystem");
+            //_system.EventStream.Subscribe()
+            var propsResolver = new AutoFacDependencyResolver(container, _system);
+            
             Console.WriteLine("Application Started");
         }
 

@@ -2,7 +2,7 @@
 
 namespace SimpleActor.Core.Messages.Events
 {
-    public class TransactionAddedEvent : IDomainEvent
+    public class TransactionAddedEvent : IDomainEvent, IDomainCommand
     {
         public Guid AggregateId { get; }
         public Guid EntityId { get; set; }

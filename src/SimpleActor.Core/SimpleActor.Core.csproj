@@ -76,9 +76,13 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="DomainException.cs" />
+    <Compile Include="Domain\Actors\AggregateFactory.cs" />
     <Compile Include="Domain\Actors\AggregateRootActor.cs" />
+    <Compile Include="Domain\Actors\AggregateRootCreationParameters.cs" />
     <Compile Include="Domain\Actors\IEventRaisingActor.cs" />
     <Compile Include="Domain\Actors\PaymentActor.cs" />
+    <Compile Include="Domain\Actors\ReadModelProjectionActor.cs" />
     <Compile Include="Domain\Actors\TransactionActor.cs" />
     <Compile Include="Autofac\SimpleActorCoreModule.cs" />
     <Compile Include="Domain\Entities\Transaction.cs" />
@@ -91,6 +95,7 @@
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="EventStores\IEventStore.cs" />
     <Compile Include="EventStores\InMemoryEventStore.cs" />
+    <Compile Include="SystemData.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="app.config" />
